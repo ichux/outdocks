@@ -68,6 +68,11 @@ stat:
 tail:
 	@docker logs psqlv12.2 --timestamps --follow
 
+psqldata:
+	# back up the /var/lib/postgresql/data/
+	# then check `$HOME/Queries` for the backed-up folder
+	@docker run --rm --volumes-from psqlv12.2 -it busybox tar -zcf /queries/psqldata.tar.gz /var/lib/postgresql/data/
+
 opt:
 	docker run --rm --volumes-from psqlv12.2 -it busybox \
 	cat /etc/postgresql/postgresql.conf && echo "\n"
@@ -118,4 +123,4 @@ prune:
 	# @docker volume prune -f && docker network prune -f
 	@make stat
 
-.PHONY: prune csv dumps pgstat cr8 ud config opt tail stat stop down net up logs bash dip
+.PHONY: prune csv dumps pgstat cr8 ud config opt tail stat stop down net up logs bash dip psqldata
