@@ -1,0 +1,15 @@
+version: '3.7'
+
+services:
+  dbpool:
+    build: .
+    container_name: pgbouncer
+    ports:
+      - 6432:6432
+    networks:
+      - proxynet
+
+networks:
+  proxynet:
+    name: idev
+    external: true

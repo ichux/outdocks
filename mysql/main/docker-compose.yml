@@ -1,0 +1,37 @@
+version: '3.7'
+
+networks:
+  proxynet:
+    name: idev
+    external: true
+
+services:
+  database:
+    image: mysql:8.0.20
+    restart: always
+    container_name: mysqlv8.0.20
+    environment:
+      MYSQL_DATABASE: docker
+      MYSQL_USER: backend
+      MYSQL_PASSWORD: 5ec8b1681
+      MYSQL_ROOT_PASSWORD: e81bc8e51
+    ports:
+      - 3306:3306
+    volumes:
+      - $PWD/mysqldata:/var/lib/mysql
+    networks:
+      - proxynet
+
+  adgui:
+    image: adminer
+    container_name: adminer
+    ports:
+      - 9090:8080
+    environment:
+      - ADMINER_DEFAULT_SERVER=database
+      - ADMINER_PLUGINS=tables-filter
+      - ADMINER_DESIGN=pepa-linha
+    depends_on:
+      - database
+    networks:
+      - proxynet

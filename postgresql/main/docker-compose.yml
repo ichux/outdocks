@@ -1,0 +1,33 @@
+version: '3.7'
+
+networks:
+  proxynet:
+    name: idev
+    external: true
+
+services:
+  database:
+    build: .
+    container_name: psqlv12.2
+    environment:
+      POSTGRES_PASSWORD: SQL085bc2
+    networks:
+      - proxynet
+    ports:
+      - 5432:5432
+    restart: always
+    volumes:
+      # save your .sql files to the `Queries` dir
+      - $HOME/Queries:/queries
+      - $PWD/pgdata:/var/lib/postgresql/data
+
+  sqlgui:
+    image: dpage/pgadmin4
+    container_name: pgadmin4
+    ports:
+      - 9080:80
+    environment:
+      PGADMIN_DEFAULT_EMAIL: admin
+      PGADMIN_DEFAULT_PASSWORD: EvolvePG4
+    networks:
+      - proxynet
