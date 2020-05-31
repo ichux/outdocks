@@ -19,7 +19,6 @@ services:
     volumes:
       # save your .sql files to the `Queries` dir
       - $HOME/Queries:/queries
-      - $PWD/pgdata:/var/lib/postgresql/data
 
   sqlgui:
     image: dpage/pgadmin4
