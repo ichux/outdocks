@@ -1,5 +1,10 @@
 version: '3.7'
 
+networks:
+  proxynet:
+    name: idev
+    external: true
+
 services:
   dbpool:
     build: .
@@ -8,8 +13,3 @@ services:
       - 6432:6432
     networks:
       - proxynet
-
-networks:
-  proxynet:
-    name: idev
-    external: true
