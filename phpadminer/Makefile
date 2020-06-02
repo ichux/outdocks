@@ -9,3 +9,9 @@ down:
 
 logs:
 	docker-compose --project-name phpadminer logs --timestamps --follow
+
+start:
+	@docker-compose --project-name phpadminer start
+
+stop:
+	@docker-compose --project-name phpadminer stop

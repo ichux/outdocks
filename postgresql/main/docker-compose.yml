@@ -6,7 +6,7 @@ networks:
     external: true
 
 services:
-  database:
+  dbpsql:
     build: .
     container_name: psqlv12.2
     environment:

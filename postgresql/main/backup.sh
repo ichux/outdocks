@@ -11,6 +11,3 @@ FILENAME=${BACKUP_PATH}/postgres-$(date +%Y-%m-%d-%H%M%S.%s.%Z).tar.gz
 
 tar -zcf ${FILENAME} $PWD/pgdata
 echo ${FILENAME}
-
-# extract archive
-# tar xfz ${FILENAME}

@@ -13,3 +13,9 @@ dumps:
 
 loads:
 	docker exec -i mysqlv8.0.20 bash -c 'exec mysql -uroot -pe81bc8e51' < all-databases.sql
+
+stop:
+	@docker-compose --project-name mysql stop
+
+start:
+	@docker-compose --project-name mysql start

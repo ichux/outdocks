@@ -7,3 +7,9 @@ down:
 
 bash:
 	docker exec -it redisv6.0.3 bash
+
+stop:
+	@docker-compose --project-name redis stop
+
+start:
+	@docker-compose --project-name redis start

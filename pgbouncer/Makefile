@@ -4,6 +4,9 @@ logs:
 down:
 	@docker-compose --project-name bounce down
 
+start:
+	@docker-compose --project-name bounce start
+
 stop:
 	@docker-compose --project-name bounce stop
 

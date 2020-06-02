@@ -6,7 +6,7 @@ networks:
     external: true
 
 services:
-  adgui:
+  adminergui:
     build: .
     container_name: adminer4.7
     ports:
