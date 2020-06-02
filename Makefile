@@ -1,9 +1,11 @@
-.PHONY: sd bu stat ed eu ui co
+.PHONY: sd bu stat ed eu ui co op rt eo er
 
 
 help:
 	@echo "\`make <target>\` where <target> is one of"
 	@echo "  co		clean off images. Be careful with this"
+	@echo "  op		stops containers"
+	@echo "  rt		starts already stopped containers"
 	@echo "  sd		shut down all the container instances"
 	@echo "  bu		boot up all the container instances"
 	@echo "  ed		shows how to take each container instances down"
@@ -13,6 +15,24 @@ help:
 co:
 	docker image prune -a
 
+op:
+	@$(MAKE) -C redis stop
+	@$(MAKE) -C phpadminer stop
+	@$(MAKE) -C pgadmin stop
+	@$(MAKE) -C mariadb/main stop
+	@$(MAKE) -C mysql/main stop
+	@$(MAKE) -C pgbouncer stop
+	@$(MAKE) -C postgresql/main stop
+
+rt:
+	@$(MAKE) -C postgresql/main start
+	@$(MAKE) -C pgbouncer start
+	@$(MAKE) -C mysql/main start
+	@$(MAKE) -C mariadb/main start
+	@$(MAKE) -C pgadmin start
+	@$(MAKE) -C phpadminer start
+	@$(MAKE) -C redis start
+
 sd:
 	@$(MAKE) -C redis down
 	@$(MAKE) -C phpadminer down
@@ -20,10 +40,11 @@ sd:
 	@$(MAKE) -C mariadb/main down
 	@$(MAKE) -C mysql/main down
 	@$(MAKE) -C pgbouncer down
-	@$(MAKE) -C postgresql/main down
 
 	@printf "\033c"
-	@make stat
+	@$(MAKE) -C postgresql/main down
+	@$(MAKE) -C postgresql/main net
+	@$(MAKE) -C postgresql/main stat
 
 bu:
 	@$(MAKE) -C postgresql/main up
@@ -35,7 +56,26 @@ bu:
 	@$(MAKE) -C redis up
 
 	@printf "\033c"
-	@make stat
+	@$(MAKE) -C postgresql/main net
+	@$(MAKE) -C postgresql/main stat
+
+eo:
+	@echo make -C redis stop
+	@echo make -C phpadminer stop
+	@echo make -C pgadmin stop
+	@echo make -C mariadb/main stop
+	@echo make -C mysql/main stop
+	@echo make -C pgbouncer stop
+	@echo make -C postgresql/main stop
+
+er:
+	@echo make -C postgresql/main start
+	@echo make -C pgbouncer start
+	@echo make -C mysql/main start
+	@echo make -C mariadb/main start
+	@echo make -C pgadmin start
+	@echo make -C phpadminer start
+	@echo make -C redis start
 
 ed:
 	@echo make -C redis down
@@ -54,10 +94,6 @@ eu:
 	@echo make -C pgadmin up
 	@echo make -C phpadminer up
 	@echo make -C redis up
-
-stat:
-	@docker network inspect idev
-	@docker ps -a && docker images && echo 'docker rmi '
 
 ui:
 	docker pull redis:6.0.3

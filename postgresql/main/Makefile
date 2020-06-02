@@ -4,7 +4,7 @@ FORMAT="\nID\t{{.ID}}\nIMAGE\t{{.Image}}\nCOMMAND\t{{.Command}}\nCREATED\t{{.Run
 SCHEMA_TABLE = SELECT schemaname,tablename FROM pg_catalog.pg_tables WHERE schemaname \
 NOT IN ('information_schema','pg_catalog') ORDER BY schemaname,tablename
 
-RDB = docker-compose --project-name pgsql run --rm database
+RDB = docker-compose --project-name pgsql run --rm dbpsql
 
 # psql -U postgres -c "DROP DATABASE avdb;"
 
@@ -23,7 +23,8 @@ help:
 	@echo "  up		powers up the container"
 	@echo "  net		checks the network details"
 	@echo "  down		powers down the container and properly cleans up"
-	@echo "  stop		powers down the container"
+	@echo "  start	starts the container"
+	@echo "  stop		stops the container"
 	@echo "  stat		show some statistics about the docker system"
 	@echo "  tail		to tail the psqlv12.2 container"
 	@echo "  prune		properly cleans up the containers."
@@ -47,8 +48,6 @@ up:
 	@docker network ls | grep idev > /dev/null || docker network create --driver bridge idev
 	@docker-compose --project-name pgsql up --build -d
 	@sleep 5s && make pgstat
-	@make stat
-	@make net
 
 net:
 	@docker network inspect idev
@@ -57,8 +56,11 @@ down:
 	@docker-compose --project-name pgsql down
 
 stop:
-		@docker-compose --project-name pgsql stop
-		@make stat
+	@docker-compose --project-name pgsql stop
+	@make stat
+
+start:
+	@docker-compose --project-name pgsql start
 
 stat:
 	@# docker ps -a --format $(FORMAT)
@@ -68,39 +70,35 @@ stat:
 tail:
 	@docker logs psqlv12.2 --timestamps --follow
 
-psqldata:
-	# back up the /var/lib/postgresql/data/
-	# then check `$HOME/Queries` for the backed-up folder
-	@docker run --rm --volumes-from psqlv12.2 -it busybox tar -zcf /queries/psqldata.tar.gz /var/lib/postgresql/data/
+tardata:
+	@# back up the /var/lib/postgresql/data/
+	@# and extract
+	@#docker run --rm --volumes-from psqlv12.2 -it busybox tar -zcf /queries/psqldata.tar.gz -C /var/lib/postgresql data/
+	@#docker run --rm --volumes-from psqlv12.2 -it busybox tar -xf /queries/psqldata.tar.gz -C /var/lib/postgresql
 
 opt:
-	docker run --rm --volumes-from psqlv12.2 -it busybox \
-	cat /etc/postgresql/postgresql.conf && echo "\n"
-	docker run --rm --volumes-from psqlv12.2 -it busybox \
-	cat /var/lib/postgresql/data/pg_hba.conf && echo "\n"
-	docker exec -it psqlv12.2 ls / && echo "\n"
-	$(RDB) cat /usr/share/postgresql/postgresql.conf.sample > postgresql.conf.sample
+	@docker run --rm --volumes-from psqlv12.2 -it busybox cat /etc/postgresql/postgresql.conf && echo "\n"
+	@docker run --rm --volumes-from psqlv12.2 -it busybox cat /var/lib/postgresql/data/pg_hba.conf && echo "\n"
+	@docker exec -it psqlv12.2 ls / && echo "\n"
+	@# $(RDB) cat /usr/share/postgresql/postgresql.conf.sample > postgresql.conf.sample
 
 config:
 	docker-compose --project-name pgsql config
 
 ud:
 	# get the user details that you could use for pgbouncer `userlist.txt`
-	@$(RDB) psql -Atq "postgresql://postgres:SQL085bc2@database:5432" -c "SELECT concat('\"', usename, '\" \"', passwd, '\"') FROM pg_shadow"
+	@$(RDB) psql -Atq "postgresql://postgres:SQL085bc2@dbpsql:5432" -c "SELECT concat('\"', usename, '\" \"', passwd, '\"') FROM pg_shadow"
 
 cr8:
 	@echo "run SQL queries here if you know what you are doing. See examples below:"
 	# https://www.postgresql.org/docs/12/plpgsql.html
 	# http://www.postgresql.cn/docs/12/plpgsql-development-tips.html
 
-	# @$(RDB) psql "postgresql://postgres:SQL085bc2@database:5432" -c "CREATE USER alldb WITH PASSWORD '6da6308aa';"
-	# @$(RDB) psql "postgresql://postgres:SQL085bc2@database:5432" -c "CREATE DATABASE alldb OWNER alldb;"
-
-	# @$(RDB) psql "postgresql://postgres:SQL085bc2@database:5432" -c "CREATE USER pitch WITH PASSWORD 'a93119e0a';"
-	# @$(RDB) psql "postgresql://postgres:SQL085bc2@database:5432" -c "CREATE DATABASE pitch OWNER pitch;"
+	@$(RDB) psql "postgresql://postgres:SQL085bc2@dbpsql:5432" -c "CREATE USER evolves WITH PASSWORD 'b15c6d50b94b2';"
+	@$(RDB) psql "postgresql://postgres:SQL085bc2@dbpsql:5432" -c "CREATE DATABASE evolves OWNER evolves;"
 
 pgstat:
-	$(RDB) psql "postgresql://postgres:SQL085bc2@database:5432" -c 'CREATE EXTENSION IF NOT EXISTS pg_stat_statements;'
+	$(RDB) psql "postgresql://postgres:SQL085bc2@dbpsql:5432" -c 'CREATE EXTENSION IF NOT EXISTS pg_stat_statements;'
 
 bup:
 	@# docker exec -it psqlv12.2 pg_dump -U postgres -F t alldb
@@ -115,8 +113,8 @@ ddb:
 	@# COPY table_name (tags,image) FROM '/queries/alldb_loaded-tables.csv';
 
 csv:
-	@# $(RDB) psql -Atq "postgresql://postgres:SQL085bc2@database:5432" -c "COPY ($(SCHEMA_TABLE)) TO '/queries/postgres_loaded-tables.csv' DELIMITER ',' CSV HEADER;"
-	@$(RDB) psql "postgresql://postgres:SQL085bc2@database:5432/alldb" -c "COPY ($(SCHEMA_TABLE)) TO '/queries/alldb_loaded-tables.csv' DELIMITER ',' CSV HEADER;"
+	@# $(RDB) psql -Atq "postgresql://postgres:SQL085bc2@dbpsql:5432" -c "COPY ($(SCHEMA_TABLE)) TO '/queries/postgres_loaded-tables.csv' DELIMITER ',' CSV HEADER;"
+	@$(RDB) psql "postgresql://postgres:SQL085bc2@dbpsql:5432/alldb" -c "COPY ($(SCHEMA_TABLE)) TO '/queries/alldb_loaded-tables.csv' DELIMITER ',' CSV HEADER;"
 
 prune:
 	@docker container prune -f

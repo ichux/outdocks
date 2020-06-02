@@ -6,7 +6,7 @@ networks:
     external: true
 
 services:
-  database:
+  dbmysql:
     image: mysql:8.0.20
     restart: always
     container_name: mysqlv8.0.20

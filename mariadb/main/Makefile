@@ -13,3 +13,9 @@ dumps:
 
 loads:
 	docker exec -i mariadbv10.5.3 bash -c 'exec mysql -uroot -pe81bc8e51' < all-databases.sql
+
+start:
+	@docker-compose --project-name mariadb start
+
+stop:
+	@docker-compose --project-name mariadb stop

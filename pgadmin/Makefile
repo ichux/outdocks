@@ -12,3 +12,9 @@ bash:
 
 logs:
 	docker-compose --project-name pgadmin logs --timestamps --follow
+
+start:
+	@docker-compose --project-name pgadmin start
+
+stop:
+	@docker-compose --project-name pgadmin stop
