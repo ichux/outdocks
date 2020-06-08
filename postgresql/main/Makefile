@@ -24,6 +24,7 @@ help:
 	@echo "  net		checks the network details"
 	@echo "  down		powers down the container and properly cleans up"
 	@echo "  start	starts the container"
+	@echo "  rs	    restarts the container"
 	@echo "  stop		stops the container"
 	@echo "  stat		show some statistics about the docker system"
 	@echo "  tail		to tail the psqlv12.2 container"
@@ -61,6 +62,9 @@ stop:
 
 start:
 	@docker-compose --project-name pgsql start
+
+rs:
+	@docker-compose --project-name pgsql restart
 
 stat:
 	@# docker ps -a --format $(FORMAT)
