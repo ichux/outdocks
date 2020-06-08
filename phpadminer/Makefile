@@ -13,5 +13,8 @@ logs:
 start:
 	@docker-compose --project-name phpadminer start
 
+rs:
+	@docker-compose --project-name phpadminer restart
+
 stop:
 	@docker-compose --project-name phpadminer stop

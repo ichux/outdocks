@@ -19,3 +19,6 @@ stop:
 
 start:
 	@docker-compose --project-name mysql start
+
+rs:
+	@docker-compose --project-name mysql restart

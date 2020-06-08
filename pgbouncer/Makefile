@@ -7,6 +7,9 @@ down:
 start:
 	@docker-compose --project-name bounce start
 
+rs:
+	@docker-compose --project-name bounce restart
+
 stop:
 	@docker-compose --project-name bounce stop
 

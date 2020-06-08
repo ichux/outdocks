@@ -16,5 +16,8 @@ logs:
 start:
 	@docker-compose --project-name pgadmin start
 
+rs:
+	@docker-compose --project-name pgadmin restart
+
 stop:
 	@docker-compose --project-name pgadmin stop

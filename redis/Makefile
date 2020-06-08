@@ -13,3 +13,6 @@ stop:
 
 start:
 	@docker-compose --project-name redis start
+
+rs:
+	@docker-compose --project-name redis restart

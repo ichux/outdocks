@@ -5,6 +5,7 @@ help:
 	@echo "\`make <target>\` where <target> is one of"
 	@echo "  co		clean off images. Be careful with this"
 	@echo "  op		stops containers"
+	@echo "  rs		restarts the containers"
 	@echo "  rt		starts already stopped containers"
 	@echo "  sd		shut down all the container instances"
 	@echo "  bu		boot up all the container instances"
@@ -23,6 +24,15 @@ op:
 	@$(MAKE) -C mysql/main stop
 	@$(MAKE) -C pgbouncer stop
 	@$(MAKE) -C postgresql/main stop
+
+rs:
+	@$(MAKE) -C postgresql/main rs
+	@$(MAKE) -C pgbouncer rs
+	@$(MAKE) -C mysql/main rs
+	@$(MAKE) -C mariadb/main rs
+	@$(MAKE) -C pgadmin rs
+	@$(MAKE) -C phpadminer rs
+	@$(MAKE) -C redis rs
 
 rt:
 	@$(MAKE) -C postgresql/main start
@@ -77,6 +87,15 @@ er:
 	@echo make -C phpadminer start
 	@echo make -C redis start
 
+es:
+	@echo make -C postgresql/main rs
+	@echo make -C pgbouncer rs
+	@echo make -C mysql/main rs
+	@echo make -C mariadb/main rs
+	@echo make -C pgadmin rs
+	@echo make -C phpadminer rs
+	@echo make -C redis rs
+
 ed:
 	@echo make -C redis down
 	@echo make -C phpadminer down
@@ -94,6 +113,7 @@ eu:
 	@echo make -C pgadmin up
 	@echo make -C phpadminer up
 	@echo make -C redis up
+
 
 ui:
 	docker pull redis:6.0.3

@@ -17,5 +17,8 @@ loads:
 start:
 	@docker-compose --project-name mariadb start
 
+rs:
+	@docker-compose --project-name mariadb restart
+
 stop:
 	@docker-compose --project-name mariadb stop
