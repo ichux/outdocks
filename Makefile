@@ -1,8 +1,9 @@
-.PHONY: sd bu stat ed eu ui co op rt eo er
+.PHONY: vo co op rs rt sd bu eo er er ed eu ui
 
 
 help:
 	@echo "\`make <target>\` where <target> is one of"
+	@echo "  vo		make necessary volume for postgresql data"
 	@echo "  co		clean off images. Be careful with this"
 	@echo "  op		stops containers"
 	@echo "  rs		restarts the containers"
@@ -13,8 +14,13 @@ help:
 	@echo "  eu		shows how to take each container instances up"
 	@echo "  ui		update images used for containers"
 
+vo:
+	@#make vo id=$PWD/psqlv12_2_data
+	@test -d $(id) || mkdir -p $(id)
+	@docker volume inspect psqlv12_2_data | grep psqlv12_2_data > /dev/null || docker volume create --driver local --opt type=none --opt device=$(id) --opt o=bind psqlv12_2_data
+	@docker volume inspect psqlv12_2_data
 co:
-	docker image prune -a
+	@docker image prune -a
 
 op:
 	@$(MAKE) -C redis stop

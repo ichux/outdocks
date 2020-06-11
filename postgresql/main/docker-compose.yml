@@ -1,5 +1,9 @@
 version: '3.7'
 
+volumes:
+  psqlv12_2_data:
+    external: true
+
 networks:
   proxynet:
     name: idev
@@ -19,3 +23,4 @@ services:
     volumes:
       # save your .sql files to the `Queries` dir
       - $HOME/Queries:/queries
+      - psqlv12_2_data:/var/lib/postgresql/data:consistent
