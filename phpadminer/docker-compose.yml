@@ -9,6 +9,7 @@ services:
   adminergui:
     build: .
     container_name: adminer4.7
+    restart: always
     ports:
       - 9090:8080
     environment:

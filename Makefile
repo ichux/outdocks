@@ -1,8 +1,9 @@
-.PHONY: vo co op rs rt sd bu eo er er ed eu ui
+.PHONY: uv vo co op rs rt sd bu eo er er ed eu ui
 
 
 help:
 	@echo "\`make <target>\` where <target> is one of"
+	@echo "  uv		make necessary volume on Ubuntu(Linux) for postgresql data"
 	@echo "  vo		make necessary volume for postgresql data"
 	@echo "  co		clean off images. Be careful with this"
 	@echo "  op		stops containers"
@@ -14,11 +15,18 @@ help:
 	@echo "  eu		shows how to take each container instances up"
 	@echo "  ui		update images used for containers"
 
+uv:
+	@#make uv id=$PWD/psqlv12_2_data
+	@test -d $(id) || mkdir -p $(id)
+	@docker volume inspect psqlv12_2_data | grep psqlv12_2_data > /dev/null || docker volume create --driver local --opt type=tmpfs --opt device=$(id) --opt o=bind psqlv12_2_data
+	@docker volume inspect psqlv12_2_data
+
 vo:
 	@#make vo id=$PWD/psqlv12_2_data
 	@test -d $(id) || mkdir -p $(id)
 	@docker volume inspect psqlv12_2_data | grep psqlv12_2_data > /dev/null || docker volume create --driver local --opt type=none --opt device=$(id) --opt o=bind psqlv12_2_data
 	@docker volume inspect psqlv12_2_data
+
 co:
 	@docker image prune -a
 
