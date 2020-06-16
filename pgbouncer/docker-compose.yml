@@ -9,6 +9,7 @@ services:
   dbpool:
     build: .
     container_name: pgbouncer
+    restart: always
     ports:
       - 6432:6432
     networks:

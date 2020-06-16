@@ -13,6 +13,7 @@ services:
   dbpsql:
     build: .
     container_name: psqlv12.2
+    restart: always
     environment:
       POSTGRES_PASSWORD: SQL085bc2
     networks:

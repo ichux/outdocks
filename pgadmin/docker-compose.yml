@@ -8,6 +8,7 @@ networks:
 services:
   pgadmingui:
     image: dpage/pgadmin4
+    restart: always
     container_name: pgadmin4
     ports:
       - 9080:80
