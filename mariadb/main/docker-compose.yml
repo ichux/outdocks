@@ -7,10 +7,10 @@ networks:
 
 services:
   dbmariadb:
-    image: mariadb:10.5.3
+    image: mariadb:10.5.4
     command: mysqld --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci
     restart: always
-    container_name: mariadbv10.5.3
+    container_name: mariadbv10.5.4
     environment:
       MYSQL_DATABASE: docker
       MYSQL_USER: backend
@@ -19,6 +19,6 @@ services:
     ports:
       - 4406:3306
     volumes:
-      - $PWD/mariadbdata:/var/lib/mysql
+      - $PWD/keeps/mariadb:/var/lib/mysql
     networks:
       - proxynet

@@ -27,7 +27,7 @@ help:
 	@echo "  rs	    restarts the container"
 	@echo "  stop		stops the container"
 	@echo "  stat		show some statistics about the docker system"
-	@echo "  tail		to tail the psqlv12.2 container"
+	@echo "  tail		to tail the psqlv12 container"
 	@echo "  prune		properly cleans up the containers."
 	@echo "  opt		see the DB options used"
 	@echo "  config	displays the docker configuration"
@@ -37,10 +37,10 @@ help:
 	@echo "  csv		copy out the loaded tables in .csv format"
 
 dip:
-	docker inspect psqlv12.2
+	docker inspect psqlv12
 
 bash:
-	docker exec -it psqlv12.2 bash
+	docker exec -it psqlv12 bash
 
 logs:
 	docker-compose --project-name pgsql logs --timestamps --follow
@@ -72,18 +72,18 @@ stat:
 	@docker images; echo; echo "docker rmi "
 
 tail:
-	@docker logs psqlv12.2 --timestamps --follow
+	@docker logs psqlv12 --timestamps --follow
 
 tardata:
 	@# back up the /var/lib/postgresql/data/
 	@# and extract
-	@#docker run --rm --volumes-from psqlv12.2 -it busybox tar -zcf /queries/psqldata.tar.gz -C /var/lib/postgresql data/
-	@#docker run --rm --volumes-from psqlv12.2 -it busybox tar -xf /queries/psqldata.tar.gz -C /var/lib/postgresql
+	@#docker run --rm --volumes-from psqlv12 -it busybox tar -zcf /queries/psqldata.tar.gz -C /var/lib/postgresql data/
+	@#docker run --rm --volumes-from psqlv12 -it busybox tar -xf /queries/psqldata.tar.gz -C /var/lib/postgresql
 
 opt:
-	@docker run --rm --volumes-from psqlv12.2 -it busybox cat /etc/postgresql/postgresql.conf && echo "\n"
-	@docker run --rm --volumes-from psqlv12.2 -it busybox cat /var/lib/postgresql/data/pg_hba.conf && echo "\n"
-	@docker exec -it psqlv12.2 ls / && echo "\n"
+	@docker run --rm --volumes-from psqlv12 -it busybox cat /etc/postgresql/postgresql.conf && echo "\n"
+	@docker run --rm --volumes-from psqlv12 -it busybox cat /var/lib/postgresql/data/pg_hba.conf && echo "\n"
+	@docker exec -it psqlv12 ls / && echo "\n"
 	@# $(RDB) cat /usr/share/postgresql/postgresql.conf.sample > postgresql.conf.sample
 
 config:
@@ -105,14 +105,14 @@ pgstat:
 	$(RDB) psql "postgresql://postgres:SQL085bc2@dbpsql:5432" -c 'CREATE EXTENSION IF NOT EXISTS pg_stat_statements;'
 
 bup:
-	@# docker exec -it psqlv12.2 pg_dump -U postgres -F t alldb
-	docker exec -it psqlv12.2 pg_dump -U postgres -F t alldb --file=/queries/alldb.dump
-	@# docker exec -it psqlv12.2 pg_dump -U postgres -F t alldb --schema-only --file=/queries/alldb-schema-only.sql
-	@# docker exec -it psqlv12.2 pg_dump -U postgres -F t alldb --data-only --file=/queries/alldb-data-only.sql
-	@# @docker exec -it -e PGPASSWORD=SQL085bc2 psqlv12.2 pg_dump -h localhost -U postgres alldb > alldb.sql
+	@# docker exec -it psqlv12 pg_dump -U postgres -F t alldb
+	docker exec -it psqlv12 pg_dump -U postgres -F t alldb --file=/queries/alldb.dump
+	@# docker exec -it psqlv12 pg_dump -U postgres -F t alldb --schema-only --file=/queries/alldb-schema-only.sql
+	@# docker exec -it psqlv12 pg_dump -U postgres -F t alldb --data-only --file=/queries/alldb-data-only.sql
+	@# @docker exec -it -e PGPASSWORD=SQL085bc2 psqlv12 pg_dump -h localhost -U postgres alldb > alldb.sql
 
 ddb:
-	docker exec -it psqlv12.2 pg_dump alldb -U postgres --role=alldb --file=/queries/alldb.sql
+	docker exec -it psqlv12 pg_dump alldb -U postgres --role=alldb --file=/queries/alldb.sql
 	@# psql -f /queries/alldb_loaded-tables.sql -U postgres -d alldb
 	@# COPY table_name (tags,image) FROM '/queries/alldb_loaded-tables.csv';
 

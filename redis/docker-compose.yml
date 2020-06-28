@@ -7,12 +7,12 @@ networks:
 
 services:
   redis:
-    image: redis:6.0.3
+    image: redis:6
     restart: always
-    container_name: redisv6.0.3
+    container_name: redisv6
     command: redis-server --requirepass 474ca5605719c1
     volumes:
-      - $PWD/redisdata:/data
+      - $PWD/keeps/redis:/data
     ports:
       - 6369:6379
     networks:

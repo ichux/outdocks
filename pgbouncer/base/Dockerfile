@@ -1,5 +1,5 @@
 FROM alpine:3.11
-ARG VERSION=1.12.0
+ARG VERSION=1.14.0
 
 RUN \
   # Download

@@ -1,7 +1,7 @@
 version: '3.7'
 
 volumes:
-  psqlv12_2_data:
+  psql:
     external: true
 
 networks:
@@ -12,7 +12,7 @@ networks:
 services:
   dbpsql:
     build: .
-    container_name: psqlv12.2
+    container_name: psqlv12
     restart: always
     environment:
       POSTGRES_PASSWORD: SQL085bc2
@@ -24,4 +24,4 @@ services:
     volumes:
       # save your .sql files to the `Queries` dir
       - $HOME/Queries:/queries
-      - psqlv12_2_data:/var/lib/postgresql/data:consistent
+      - psql:/var/lib/postgresql/data:consistent
