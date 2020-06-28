@@ -1,4 +1,4 @@
-FROM postgres:12.2
+FROM postgres:12
 USER postgres
 
 RUN echo "listen_addresses='*'" >> /etc/postgresql/postgresql.conf

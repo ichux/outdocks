@@ -10,6 +10,7 @@ services:
     image: mysql:8.0.20
     restart: always
     container_name: mysqlv8.0.20
+    command: --innodb-dedicated-server=ON
     environment:
       MYSQL_DATABASE: docker
       MYSQL_USER: backend
@@ -18,6 +19,6 @@ services:
     ports:
       - 3306:3306
     volumes:
-      - $PWD/mysqldata:/var/lib/mysql
+      - $PWD/keeps/mysql:/var/lib/mysql
     networks:
       - proxynet

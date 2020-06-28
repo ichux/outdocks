@@ -16,16 +16,16 @@ help:
 	@echo "  ui		update images used for containers"
 
 uv:
-	@#make uv id=$PWD/psqlv12_2_data
+	@#make uv id=$PWD/keeps/psql
 	@test -d $(id) || mkdir -p $(id)
-	@docker volume inspect psqlv12_2_data | grep psqlv12_2_data > /dev/null || docker volume create --driver local --opt type=tmpfs --opt device=$(id) --opt o=bind psqlv12_2_data
-	@docker volume inspect psqlv12_2_data
+	@docker volume inspect psql | grep psql > /dev/null || docker volume create --driver local --opt type=tmpfs --opt device=$(id) --opt o=bind psql
+	@docker volume inspect psql
 
 vo:
-	@#make vo id=$PWD/psqlv12_2_data
+	@#make vo id=$PWD/keeps/psql
 	@test -d $(id) || mkdir -p $(id)
-	@docker volume inspect psqlv12_2_data | grep psqlv12_2_data > /dev/null || docker volume create --driver local --opt type=none --opt device=$(id) --opt o=bind psqlv12_2_data
-	@docker volume inspect psqlv12_2_data
+	@docker volume inspect psql | grep psql > /dev/null || docker volume create --driver local --opt type=none --opt device=$(id) --opt o=bind psql
+	@docker volume inspect psql
 
 co:
 	@docker image prune -a
