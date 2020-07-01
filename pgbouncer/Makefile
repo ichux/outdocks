@@ -5,10 +5,10 @@ down:
 	@docker-compose --project-name bounce down
 
 start:
-	@docker-compose --project-name bounce start
+	@docker-compose --project-name bounce start dbpool
 
 rs:
-	@docker-compose --project-name bounce restart
+	@docker-compose --project-name bounce restart dbpool
 
 stop:
 	@docker-compose --project-name bounce stop
@@ -16,14 +16,14 @@ stop:
 up:
 	# docker images | grep pgbouncer_dbpool | awk '{print $3}'
 	@docker network ls | grep idev > /dev/null || make idevnet
-	@docker images | grep devbouncer > /dev/null || make obase
-	@docker-compose --project-name bounce up --build -d
+	@docker-compose --project-name bounce up --no-start --build
+	@docker-compose --project-name bounce up -d dbpool
+
+	@# bash -c '[ "$(docker ps -a | grep bounce_devbouncer_1)" ] && docker rm bounce_devbouncer_1 2> /dev/null || true'
+	@docker rm bounce_devbouncer_1 2> /dev/null || true
 
 idevnet:
 	@docker network create --driver bridge idev
-
-obase:
-	@cd base && docker build -t devbouncer .
 
 shell:
 	docker exec -it pgbouncer sh
