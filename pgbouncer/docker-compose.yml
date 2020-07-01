@@ -6,8 +6,16 @@ networks:
     external: true
 
 services:
+  devbouncer:
+    build:
+      context: .
+      dockerfile: base.Dockerfile
+    image: devbouncer
+
   dbpool:
-    build: .
+    build:
+      context: .
+      dockerfile: main.Dockerfile
     container_name: pgbouncer
     restart: always
     ports:
