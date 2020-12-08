@@ -1,19 +1,20 @@
 version: '3.7'
 
 networks:
-  proxynet:
-    name: idev
+  docnet:
+    name: outdocks
     external: true
 
 services:
   redis:
-    image: redis:6
+    image: redis:6.0.9-alpine
+    command: $COMMAND
+    container_name: redis
     restart: always
-    container_name: redisv6
-    command: redis-server --requirepass 474ca5605719c1
     volumes:
-      - $PWD/keeps/redis:/data
+      - $VOX_REDIS_DATA:/data
     ports:
-      - 6369:6379
+      - $VOX_REDIS_PORT:6379
     networks:
-      - proxynet
+      docnet:
+        ipv4_address: 172.30.0.3

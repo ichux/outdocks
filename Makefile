@@ -1,6 +1,6 @@
 .PHONY: uv vo co op rs rt sd bu eo er er ed eu ui
 
-
+# kill a port: sudo kill -9 $(sudo lsof -t -i:4000)
 help:
 	@echo "\`make <target>\` where <target> is one of"
 	@echo "  uv		make necessary volume on Ubuntu(Linux) for postgresql data"
