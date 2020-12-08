@@ -1,8 +1,8 @@
-# Redis v6.0.9
-Version of Redis in use.
+# MySQL v8.0.22
+Version of MySQL in use.
 
 ## CREATE VOLUME
-Make a directory that will store redis data
+Make a directory that will store MySQL data
 
 ## CREATE NETWORK
 Create the initial network that the docker containers will work with
@@ -17,14 +17,14 @@ To check for the status of the docker network at any point in time:
 > docker network inspect outdocks
 
 ## CONTAINER IP
-ip: 172.30.0.3
+ip: 172.30.0.4
 
 ## START UP PROCESS
 1. create the network, as stated above
 2. create the volume, as stated above
 3. cp .env-example .env
 4. alter the variable in .env that was created above to taste
-5. put the directory you created earlier at the variable *VOX_REDIS_DATA*
+5. put the directory you created earlier at the variable *MYSQL_DATA*
 
 ## DOCKER INITIALIZATION GUIDELINE
 * Run `docker-compose up --remove-orphan --build -d` to build and run the containers.

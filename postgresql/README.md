@@ -2,7 +2,7 @@
 Version of PostgreSQL in use.
 
 ## CREATE VOLUME
-Make a directory that will store redis data
+Make a directory that will store PostgreSQL data
 
 
 ## CREATE NETWORK

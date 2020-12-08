@@ -12,9 +12,9 @@ services:
     container_name: redis
     restart: always
     volumes:
-      - $VOX_REDIS_DATA:/data
+      - $REDIS_DATA:/data
     ports:
-      - $VOX_REDIS_PORT:6379
+      - $REDIS_PORT:6379
     networks:
       docnet:
         ipv4_address: 172.30.0.3

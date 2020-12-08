@@ -1,24 +1,25 @@
 version: '3.7'
 
 networks:
-  proxynet:
-    name: idev
+  docnet:
+    name: outdocks
     external: true
 
 services:
-  dbmysql:
-    image: mysql:8.0.20
+  mysqlv8:
+    image: mysql:8
     restart: always
-    container_name: mysqlv8.0.20
-    command: --innodb-dedicated-server=ON
+    container_name: mysqlv8
+    command: $COMMAND
     environment:
-      MYSQL_DATABASE: docker
-      MYSQL_USER: backend
-      MYSQL_PASSWORD: 5ec8b1681
-      MYSQL_ROOT_PASSWORD: e81bc8e51
+      MYSQL_DATABASE: $MYSQL_DATABASE
+      MYSQL_USER: $MYSQL_USER
+      MYSQL_PASSWORD: $MYSQL_PASSWORD
+      MYSQL_ROOT_PASSWORD: $MYSQL_ROOT_PASSWORD
     ports:
-      - 3306:3306
+      - $MYSQL_PORT:3306
     volumes:
-      - $PWD/keeps/mysql:/var/lib/mysql
+      - $MYSQL_DATA:/var/lib/mysql
     networks:
-      - proxynet
+      docnet:
+        ipv4_address: 172.30.0.4
