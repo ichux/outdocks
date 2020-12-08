@@ -1,18 +1,17 @@
 up:
-	@docker network ls | grep idev > /dev/null || docker network create --driver bridge idev
-	@docker-compose --project-name outdocks up --build -d
+	@docker-compose up --remove-orphan --build -d
 
 down:
-	@docker-compose --project-name outdocks down
+	@docker-compose down
 
 bash:
-	docker exec -it redisv6 bash
+	docker exec -it redis sh
 
 stop:
-	@docker-compose --project-name outdocks stop
+	@docker-compose stop
 
 start:
-	@docker-compose --project-name outdocks start
+	@docker-compose start
 
 rs:
-	@docker-compose --project-name outdocks restart
+	@docker-compose restart

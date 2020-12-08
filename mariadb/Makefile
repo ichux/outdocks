@@ -1,24 +1,25 @@
 up:
-	@docker network ls | grep idev > /dev/null || docker network create --driver bridge idev
-	@docker-compose --project-name mariadb up --build -d
+	@docker-compose up --remove-orphan --build -d
 
 down:
-	@docker-compose --project-name mariadb down
+	@docker-compose down
 
 bash:
-	docker exec -it mariadbv10.5.4 bash
+	@docker exec -it mariadb sh
 
 dumps:
-	docker exec mariadbv10.5.4 bash -c 'exec mysqldump --all-databases -uroot -pe81bc8e51' > all-databases.sql
+	@#make dumps p=password
+	@docker exec mariadb sh -c 'exec mysqldump --all-databases -uroot -p$(p)' > all-databases.sql
 
 loads:
-	docker exec -i mariadbv10.5.4 bash -c 'exec mysql -uroot -pe81bc8e51' < all-databases.sql
+	@#make dumps p=password
+	@docker exec -i mariadb sh -c 'exec mysql -uroot -p$(p)' < all-databases.sql
 
 start:
-	@docker-compose --project-name mariadb start
+	@docker-compose start
 
 rs:
-	@docker-compose --project-name mariadb restart
+	@docker-compose restart
 
 stop:
-	@docker-compose --project-name mariadb stop
+	@docker-compose stop

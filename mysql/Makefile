@@ -1,45 +1,47 @@
 up:
-	@docker network ls | grep idev > /dev/null || docker network create --driver bridge idev
-	@docker-compose --project-name mysql up --build -d
+	@docker-compose up --remove-orphan --build -d
 
 down:
-	@docker-compose --project-name mysql down
+	@docker-compose down
 
 bash:
-	docker exec -it mysqlv8.0.20 bash
+	docker exec -it mysqlv8 sh
 
 dumps:
-	docker exec mysqlv8.0.20 bash -c 'exec mysqldump --all-databases -uroot -pe81bc8e51' > all-databases.sql
+	@#make dumps p=password
+	docker exec mysqlv8 sh -c 'exec mysqldump --all-databases -uroot -p$(p)' > all-databases.sql
 
 html:
-	@docker exec -i mysqlv8.0.20 bash -c 'exec mysql -uroot -p$(p) --html --database=idb --execute="SELECT * FROM migration_tbl"'
+	@#make html p=password
+	@docker exec -i mysqlv8 sh -c 'exec mysql -uroot -p$(p) --html --database=idb --execute="SELECT * FROM migration_tbl"'
 
-test:
-	@#make test p=e81bc8e51
-	@docker exec -i mysqlv8.0.20 bash -c 'exec mysql -uroot -p$(p) --execute="SELECT VERSION() as VERSION\GSELECT NOW() AS NOW\G"'
+now:
+	@#make now p=e81bc8e51
+	@docker exec -i mysqlv8 sh -c 'exec mysql -uroot -p$(p) --execute="SELECT VERSION() as VERSION\GSELECT NOW() AS NOW\G"'
 	@echo
-	@docker exec -i mysqlv8.0.20 bash -c 'exec mysql -uroot -p$(p) --execute="SELECT VERSION() as VERSION;SELECT NOW() AS NOW;"'
+	@docker exec -i mysqlv8 sh -c 'exec mysql -uroot -p$(p) --execute="SELECT VERSION() as VERSION;SELECT NOW() AS NOW;"'
 
 cdb:
 	@#URL: https://dev.mysql.com/doc/refman/8.0/en/mysql-command-options.html
 	@# make cdb p=e81bc8e51 d=edb
-	@#echo "CREATE DATABASE IF NOT EXISTS $(d)" | docker exec -i mysqlv8.0.20 bash -c 'exec mysql -uroot -p$(p)'
-	@docker exec -i mysqlv8.0.20 bash -c 'exec mysql -uroot -p$(p) --execute="CREATE DATABASE IF NOT EXISTS $(d)"'
+	@#echo "CREATE DATABASE IF NOT EXISTS $(d)" | docker exec -i mysqlv8 sh -c 'exec mysql -uroot -p$(p)'
+	@docker exec -i mysqlv8 sh -c 'exec mysql -uroot -p$(p) --execute="CREATE DATABASE IF NOT EXISTS $(d)"'
 
 ddb:
 	@# make ddb p=e81bc8e51 d=edb
-	@#echo "DROP DATABASE IF EXISTS $(d);" | docker exec -i mysqlv8.0.20 bash -c 'exec mysql -uroot -p$(p)'
-	@docker exec -i mysqlv8.0.20 bash -c 'exec mysql -uroot -p$(p) --execute="DROP DATABASE IF EXISTS $(d)"'
+	@#echo "DROP DATABASE IF EXISTS $(d);" | docker exec -i mysqlv8 sh -c 'exec mysql -uroot -p$(p)'
+	@docker exec -i mysqlv8 sh -c 'exec mysql -uroot -p$(p) --execute="DROP DATABASE IF EXISTS $(d)"'
 
 loads:
-	# echo "CREATE DATABASE IF NOT EXISTS `idb`" | mysql -u username -p
-	docker exec -i mysqlv8.0.20 bash -c 'exec mysql -uroot -pe81bc8e51' < all-databases.sql
+	@# echo "CREATE DATABASE IF NOT EXISTS `idb`" | mysql -u username -p
+	@#make loads p=password
+	docker exec -i mysqlv8 sh -c 'exec mysql -uroot -p$(p)' < all-databases.sql
 
 stop:
-	@docker-compose --project-name mysql stop
+	@docker-compose stop
 
 start:
-	@docker-compose --project-name mysql start
+	@docker-compose start
 
 rs:
-	@docker-compose --project-name mysql restart
+	@docker-compose restart
