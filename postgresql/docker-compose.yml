@@ -1,0 +1,28 @@
+version: '3.7'
+
+networks:
+  docnet:
+    name: outdocks
+    external: true
+
+volumes:
+  psql13:
+    external: true
+
+services:
+  psql13:
+    build: .
+    container_name: psql13
+    restart: always
+    environment:
+      POSTGRES_PASSWORD: $POSTGRES_PASSWORD
+    ports:
+      - $POSTGRES_PORT:5432
+    restart: always
+    volumes:
+      # save your .sql files to the `Queries` dir
+      - $HOME/Queries:/queries
+      - psql13:/var/lib/postgresql/data:consistent
+    networks:
+      docnet:
+        ipv4_address: 172.30.0.2
