@@ -1,7 +1,7 @@
 SCHEMA_TABLE = SELECT schemaname,tablename FROM pg_catalog.pg_tables WHERE schemaname \
 NOT IN ('information_schema','pg_catalog') ORDER BY schemaname,tablename
 
-PITCH = docker-compose --project-name outdocks
+PITCH = docker-compose --project-name od1
 CLINE = docker exec -i psql13
 
 # psql -U postgres -c "DROP DATABASE avdb;"
@@ -51,7 +51,7 @@ bash:
 	@docker exec -it psql13 bash
 
 logs:
-	@docker-compose --project-name outdocks logs --timestamps --follow
+	@docker-compose --project-name od1 logs --timestamps --follow
 
 net:
 	@docker network inspect outdocks

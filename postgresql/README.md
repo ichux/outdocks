@@ -28,8 +28,8 @@ ip: 172.30.0.2
 4. alter the variable in .env that was created above to taste
 
 ## DOCKER INITIALIZATION GUIDELINE
-* Run `docker-compose --project-name outdocks up --remove-orphan --build -d` to build and run the containers.
-* Run `docker-compose --project-name outdocks logs --timestamps --follow`
+* Run `docker-compose --project-name od1 up --remove-orphan --build -d` to build and run the containers.
+* Run `docker-compose --project-name od1 logs --timestamps --follow`
 
 ## RUN TESTS
 1. Check to see that it's running at a specified port
