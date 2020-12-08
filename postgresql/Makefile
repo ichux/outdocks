@@ -34,16 +34,6 @@ help:
 	@echo "  pgstat	creates the pg_stat_statements extension if need be"
 	@echo "  csv		copy out the loaded tables in .csv format"
 
-uv:
-	@test -d $(id) || mkdir -p $(id)
-	@docker volume inspect psql13 | grep psql13 > /dev/null || docker volume create --driver local --opt type=tmpfs --opt device=$(id) --opt o=bind psql13
-	@docker volume inspect psql13
-
-vo:
-	@test -d $(id) || mkdir -p $(id)
-	@docker volume inspect psql13 | grep psql13 > /dev/null || docker volume create --driver local --opt type=none --opt device=$(id) --opt o=bind psql13
-	@docker volume inspect psql13
-
 dip:
 	@docker inspect psql13
 

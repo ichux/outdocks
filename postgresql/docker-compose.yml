@@ -5,10 +5,6 @@ networks:
     name: outdocks
     external: true
 
-volumes:
-  psql13:
-    external: true
-
 services:
   psql13:
     build: .
@@ -22,7 +18,7 @@ services:
     volumes:
       # save your .sql files to the `Queries` dir
       - $HOME/Queries:/queries
-      - psql13:/var/lib/postgresql/data:consistent
+      - $POSTGRES_DATA_DIR:/var/lib/postgresql/data
     networks:
       docnet:
         ipv4_address: 172.30.0.2

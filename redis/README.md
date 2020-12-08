@@ -27,8 +27,8 @@ ip: 172.30.100.10
 5. put the directory you created earlier at the variable *VOX_REDIS_DATA*
 
 ## DOCKER INITIALIZATION GUIDELINE
-* Run `docker-compose --project-name od3 up --remove-orphan --build -d` to build and run the containers.
-* Run `docker-compose --project-name od3 logs --timestamps --follow`
+* Run `docker-compose up --remove-orphan --build -d` to build and run the containers.
+* Run `docker-compose logs --timestamps --follow`
 
 ## RUN TESTS
 1. Check to see that it's running at a specified port

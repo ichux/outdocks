@@ -2,8 +2,7 @@
 Version of PostgreSQL in use.
 
 ## CREATE VOLUME
-Ubuntu users: make uv id=$PWD/data/psql
-Mac users: make vo id=$PWD/data/psql
+Make a directory that will store redis data
 
 
 ## CREATE NETWORK
@@ -26,6 +25,7 @@ ip: 172.30.0.2
 2. create the volume, as stated above
 3. cp .env-example .env
 4. alter the variable in .env that was created above to taste
+5. put the directory you created earlier at the variable *POSTGRES_DATA_DIR*
 
 ## DOCKER INITIALIZATION GUIDELINE
 * Run `docker-compose --project-name od1 up --remove-orphan --build -d` to build and run the containers.
