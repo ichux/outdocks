@@ -18,7 +18,7 @@ services:
     volumes:
       # save your .sql files to the `Queries` dir
       - $HOME/Queries:/queries
-      - $POSTGRES_DATA_DIR:/var/lib/postgresql/data
+      - $POSTGRES_DATA_DIR:/var/lib/postgresql
     networks:
       docnet:
         ipv4_address: 172.30.0.2
