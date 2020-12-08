@@ -1,24 +1,26 @@
 version: '3.7'
 
 networks:
-  proxynet:
-    name: idev
+  docnet:
+    name: outdocks
     external: true
 
 services:
-  dbmariadb:
-    image: mariadb:10.5.4
-    command: mysqld --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci
-    restart: always
-    container_name: mariadbv10.5.4
-    environment:
-      MYSQL_DATABASE: docker
-      MYSQL_USER: backend
-      MYSQL_PASSWORD: 5ec8b1681
-      MYSQL_ROOT_PASSWORD: e81bc8e51
-    ports:
-      - 4406:3306
-    volumes:
-      - $PWD/keeps/mariadb:/var/lib/mysql
-    networks:
-      - proxynet
+    mariadb:
+      image: mariadb/server:10.5
+      command: $COMMAND
+      restart: always
+      container_name: mariadb
+      ports:
+        - $MARIADB_PORT:3306
+      environment:
+        MYSQL_ROOT_PASSWORD: $MARIADB_ROOT_PASSWORD
+        MYSQL_DATABASE: $MARIADB_DATABASE
+        MYSQL_USER: $MARIADB_USER
+        MYSQL_PASSWORD: $MARIADB_PASSWORD
+      volumes:
+        - $MARIADB_DATA:/var/lib/mysql
+        - $MARIADB_CONFD:/etc/mysql/conf.d
+      networks:
+        docnet:
+          ipv4_address: 172.30.0.5
