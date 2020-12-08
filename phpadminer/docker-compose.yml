@@ -1,20 +1,21 @@
 version: '3.7'
 
 networks:
-  proxynet:
-    name: idev
+  docnet:
+    name: outdocks
     external: true
 
 services:
-  adminergui:
+  sqlgui:
     build: .
     container_name: adminer4.7
     restart: always
     ports:
-      - 9090:8080
+      - $SQLGUI_PORT:8080
     environment:
       # - ADMINER_DEFAULT_SERVER=database
       - ADMINER_PLUGINS=tables-filter dump-date dump-json dump-xml dump-zip
       - ADMINER_DESIGN=pepa-linha
     networks:
-      - proxynet
+      docnet:
+        ipv4_address: 172.30.100.100
