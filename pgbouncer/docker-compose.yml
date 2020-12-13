@@ -1,24 +1,26 @@
 version: '3.7'
 
 networks:
-  proxynet:
-    name: idev
+  docnet:
+    name: outdocks
     external: true
 
 services:
-  devbouncer:
+  bounce01:
     build:
       context: .
       dockerfile: base.Dockerfile
-    image: devbouncer
+    container_name: bounce01
+    image: bounce01
 
-  dbpool:
+  pool:
     build:
       context: .
       dockerfile: main.Dockerfile
-    container_name: pgbouncer
+    container_name: pool
     restart: always
     ports:
-      - 6432:6432
+      - $PGBOUNCER_PORT:6432
     networks:
-      - proxynet
+      docnet:
+        ipv4_address: 172.30.10.10

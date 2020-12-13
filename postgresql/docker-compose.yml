@@ -14,7 +14,6 @@ services:
       POSTGRES_PASSWORD: $POSTGRES_PASSWORD
     ports:
       - $POSTGRES_PORT:5432
-    restart: always
     volumes:
       # save your .sql files to the `Queries` dir
       - $HOME/Queries:/queries

@@ -16,7 +16,7 @@ RUN \
   # Manual install
   cp pgbouncer /usr/bin && \
   mkdir -p /etc/pgbouncer /var/log/pgbouncer /var/run/pgbouncer && \
-  # entrypoint installs the configuation, allow to write as postgres user
+  # entrypoint installs the configuration, allow to write as postgres user
   cp etc/pgbouncer.ini /etc/pgbouncer/pgbouncer.ini.example && \
   cp etc/userlist.txt /etc/pgbouncer/userlist.txt.example && \
   addgroup -g 70 -S postgres 2>/dev/null && \
@@ -28,7 +28,7 @@ RUN \
   apk del --purge autoconf autoconf-doc automake udns-dev curl gcc libc-dev libevent-dev libtool \
   make man libressl-dev pkgconfig
 
-ADD entrypoint.sh /entrypoint.sh
+ADD settings/entrypoint.sh /entrypoint.sh
 RUN chmod +x /entrypoint.sh
 USER postgres
 EXPOSE 5432

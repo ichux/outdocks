@@ -1,32 +1,26 @@
 logs:
-	@docker-compose --project-name bounce logs --timestamps --follow
+	@docker-compose --project-name od3 logs --timestamps --follow
 
 down:
-	@docker-compose --project-name bounce down
+	@docker-compose --project-name od3 down
 
 start:
-	@docker-compose --project-name bounce start dbpool
+	@docker-compose --project-name od3 start pool
 
 rs:
-	@docker-compose --project-name bounce restart dbpool
+	@docker-compose --project-name od3 restart pool
 
 stop:
-	@docker-compose --project-name bounce stop
+	@docker-compose --project-name od3 stop
 
 up:
-	# docker images | grep pgbouncer_dbpool | awk '{print $3}'
-	@docker network ls | grep idev > /dev/null || make idevnet
-	@docker-compose --project-name bounce up --no-start --build
-	@docker-compose --project-name bounce up -d dbpool
+	@# docker images | grep bounce01 | awk '{print $3}'
+	@docker-compose --project-name od3 up --no-start --build
+	@docker-compose --project-name od3 up -d pool
 
-	@# bash -c '[ "$(docker ps -a | grep bounce_devbouncer_1)" ] && docker rm bounce_devbouncer_1 2> /dev/null || true'
-	@docker rm bounce_devbouncer_1 2> /dev/null || true
-
-idevnet:
-	@docker network create --driver bridge idev
+	@# clean up unwanted
+	@docker rm bounce01 2> /dev/null || true
+	@docker network rm od3_default
 
 shell:
-	docker exec -it pgbouncer sh
-
-net:
-	@docker network inspect idev
+	@docker exec -it pool sh

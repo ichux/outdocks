@@ -1,0 +1,3 @@
+"postgres" "md54fbcdb11ce2bef96f9c03277cafc6b19"
+"odoo" "md5039b285724b3f3f29799d6d39a22fb2d"
+"queue" "md52417f55d02a77aee2f4aea06c3d85740"

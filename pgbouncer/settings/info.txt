@@ -1,13 +1,7 @@
 https://www.citusdata.com/blog/2017/09/29/what-performance-can-you-expect-from-postgres/
 
-
 https://gist.github.com/fabriziomello/3ac53a70ab262e37f9bca8d425c7263e
 https://gist.github.com/eulerto/01bd96ab429b95abe88afb84098bcc82
 http://peter.eisentraut.org/blog/2015/03/25/retrieving-pgbouncer-statistics-via-dblink/
 https://github.com/davidfetter/pgbouncer_wrapper/tree/master/sql
 https://thoughtbot.com/blog/postgres-foreign-data-wrapper
-
-*Important*
-
-Whenever the Internet is changed, be sure to change the IP in the `pgbouncer.ini`
-for you to be able to work
