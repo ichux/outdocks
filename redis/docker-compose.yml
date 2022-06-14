@@ -7,7 +7,7 @@ networks:
 
 services:
   redis:
-    image: redis:6.0.9-alpine
+    image: redis:7.0.2-alpine
     command: $COMMAND
     container_name: redis
     restart: always
