@@ -7,5 +7,5 @@ RUN echo "shared_preload_libraries='pg_stat_statements'" >> /etc/postgresql/post
 
 EXPOSE 5432
 
-VOLUME  ["/etc/postgresql", "/var/log/postgresql", "/var/lib/postgresql"]
+VOLUME ["/etc/postgresql", "/var/log/postgresql", "/var/lib/postgresql"]
 CMD ["-c", "config_file=/etc/postgresql/postgresql.conf"]
